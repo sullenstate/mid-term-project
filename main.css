@@ -23,7 +23,7 @@ nav.sidebar-menu .container-fluid {
 
 nav.sidebar-menu .active {
 	background-color: #272b2e;
-	padding-bottom: 5px;
+	padding-bottom: 1px;
 }
 
 .nav > li > a:focus, .navbar-default .navbar-nav > li a:focus {
@@ -44,4 +44,11 @@ nav.sidebar-menu .active {
 	/*height: 5000px;*/
 	margin-left: 20%;
 	width: 75%;
+}
+
+table.tasks {
+	width: 85%;
+	margin-left: 5%;
+	display: none;
+	/*opacity: 0;*/
 }
