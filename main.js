@@ -9,7 +9,9 @@ $(document).on('ready', function() {
 	// Load locally stored page content
 	// $('.save-container').html(JSON.parse(localStorage["projectPageState"]));
 
-	$("[data-toggle=popover]").popover();
+	var workingProject;
+
+	$("[data-toggle=popover]").popover({container : 'body'});
 	
 	// Top Nav Bar Click Events
 	$('ul.navbar-nav li').on('click', function(){
@@ -27,7 +29,7 @@ $(document).on('ready', function() {
 		}
 		else {
 			$(this).addClass('active');
-			$(this).children('.fa-tasks').popover('show');
+			$(this).children('.fa-envelope-o').popover('show');
 			$(this).siblings('li.active').removeClass('active');
 			// Sidebar Hamburger - Deavtivate other Top Nav Elements and Show Sidebar
 			if($(this).children('a').hasClass('fa-bars')) {
@@ -59,22 +61,53 @@ $(document).on('ready', function() {
 	$('.sidebar-menu li > p').on('click', function(event){
 		// Handle menu items
 		event.stopPropagation();
-		console.log('Menu Item be Clicked');
 		if ($(this).hasClass('add')) {
 			$('table.tasks.active').toggleClass('active').fadeToggle();
 			$('#projectEntryModal').modal();
 		}
 	});
 
-	// Project Click Events
+	// Project Click Events - Delegated to main-content div
 	$('.main-content').on('click', 'table.projects tr.project', function(){
 		var selectedProjectTasks = $(this).find('table.tasks');
 		var activeProjectTasks = $(this).siblings('tr').find('table.tasks.active');
 
-		activeProjectTasks.toggleClass('active').fadeToggle();
-		selectedProjectTasks.toggleClass('active').fadeToggle(function(){
-			pageState();
-		});
+		// activeProjectTasks.toggleClass('active').fadeToggle();
+		// selectedProjectTasks.toggleClass('active').fadeToggle();
+
+		if (selectedProjectTasks.hasClass('active')) {
+			selectedProjectTasks.removeClass('active').fadeOut();
+		}
+		else {
+			selectedProjectTasks.addClass('active').fadeIn();
+			$(this).find('table.tasks').find('a.btn').animate({
+				opacity : 0
+			}, 100);
+			$(this).find('table.tasks').siblings('a.btn').animate({
+				opacity : 1
+			}, 100, pageState());
+
+			activeProjectTasks.removeClass('active').fadeOut();
+		}
+
+		// $(this).find('.btn').animate({
+		// 	opacity : 0
+		// }, 100, pageState());
+	});
+
+	// Project Button Clicks
+	$('.main-content').on('click', 'table.projects .btn', function( event ){
+
+		event.stopPropagation();
+
+		workingProject = $(this).closest('tr.project');
+		
+		if ($(this).text() === 'Add Task') {
+			$('#taskEntryModal').modal();
+			workingProject.find('table.tasks').fadeIn();
+		}
+		else {
+		}
 	});
 
 	// Task Click Events
@@ -90,7 +123,8 @@ $(document).on('ready', function() {
 	});
 
 	// Form Click Events
-	$('.modal-footer .btn-primary').on('click', function(){
+	// Project Entry Form
+	$('#projectEntryModal .modal-footer .btn-primary').on('click', function(){
 		var projectName = $('#projectName').val();
 		var projectDesc = $('#projectDescription').val();
 		var newProject = $('table.template .project');
@@ -103,8 +137,46 @@ $(document).on('ready', function() {
 		// Close Modal and Clear Form Data
 		$('#projectEntryModal').modal('toggle');
 		$('#projectName').val('');
-		$('#projectDescription').val();
+		$('#projectDescription').val('');
 		// Save New Page State
 		setTimeout(pageState, 1000);
+	});
+
+	// Task Entry Form
+	$('#taskEntryModal .modal-footer .btn-primary').on('click', function(){
+		var taskName = $('#taskName').val();
+		var taskDescription = $('#taskDescription').val();
+		var newTask = $('table.taskTemplate .task');
+
+		// Populate Task Template
+		newTask.find('h4').first().text(taskName);
+		newTask.find('em').first().text(taskDescription);
+		// Add Task Template Clone to Project Table Task Space
+		workingProject.find('table.tasks tbody').prepend(newTask.clone());
+		// Close Modal and Clear Form Data
+		$('#taskEntryModal').modal('toggle');
+		$('#taskName').val('');
+		$('#taskDescription').val('');
+		// Save New Page State
+		setTimeout(pageState, 1000);
+	});
+
+	// Animate buttons on hover
+	// Project Button Show
+	$('.main-content').on('mouseenter', 'tr.project', function(){
+		$(this).find('table.tasks').siblings('a.btn').animate({opacity : 1}, 200);
+	});
+
+	$('.main-content').on('mouseleave', 'tr.project', function(){
+		$(this).find('.btn').animate({opacity : 0}, 200);
+	});
+
+	// Task Button Show
+	$('.main-content').on('mouseenter', 'tr.task', function(){
+		$(this).find('a').animate({opacity : 1}, 200);
+	});
+
+	$('.main-content').on('mouseleave', 'tr.task', function(){
+		$(this).find('a').animate({opacity : 0}, 200);
 	});
 });
