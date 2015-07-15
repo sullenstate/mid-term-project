@@ -41,14 +41,22 @@ nav.sidebar-menu .active {
 }
 
 .main-content {
-	/*height: 5000px;*/
 	margin-left: 20%;
 	width: 75%;
+	min-height: 1000px;
 }
 
 table.tasks {
 	width: 85%;
 	margin-left: 5%;
 	display: none;
-	/*opacity: 0;*/
+	border: 1px solid black;
+}
+
+table.template {
+	display: none;
+}
+
+#projectEntryModal, #taskDetailModal {
+	top: 15%;
 }
