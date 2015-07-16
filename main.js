@@ -5,12 +5,22 @@ var pageState = function(){
 };
 
 var clientList = [];
+var storedClientList = ["RefactorU","img/logo.png","Amazon","img/amazon.png","Klein Tools","img/klein.png","Western Nephrology","img/western.png"];
+var storedPageState;
 
 $(document).on('ready', function() {
 
-	// Load locally stored content
-	$('.save-container').html(JSON.parse(localStorage["projectPageState"]));
+	// Load localStorage if it exist - Otherwise load dummy data
+	if (localStorage.getItem('clients') === null) {
+		localStorage['clients'] = JSON.stringify(storedClientList);
+		console.log("Default Client List Loaded");
+	}
+
 	clientList = JSON.parse(localStorage["clients"]);
+	
+	if (localStorage.getItem('projectPageState') !== null) {
+		// $('.save-container').html(JSON.parse(localStorage["projectPageState"]));
+	}	
 
 	var workingProject;
 	var workingTask;
