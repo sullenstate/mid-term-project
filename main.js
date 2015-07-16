@@ -8,10 +8,12 @@ var clientList = [];
 
 $(document).on('ready', function() {
 
-	// Load locally stored page content
-	// $('.save-container').html(JSON.parse(localStorage["projectPageState"]));
+	// Load locally stored content
+	$('.save-container').html(JSON.parse(localStorage["projectPageState"]));
+	clientList = JSON.parse(localStorage["clients"]);
 
 	var workingProject;
+	var workingTask;
 
 	$("[data-toggle=popover]").popover({container : 'body'});
 	
@@ -31,6 +33,9 @@ $(document).on('ready', function() {
 		}
 		else {
 			$(this).addClass('active');
+			if ($(this).children('a').hasClass('fa-envelope-o')) {
+				$(this).removeClass('active');
+			}
 			$(this).children('.fa-envelope-o').popover('show');
 			$(this).siblings('li.active').removeClass('active');
 			// Sidebar Hamburger - Deavtivate other Top Nav Elements and Show Sidebar
@@ -74,9 +79,25 @@ $(document).on('ready', function() {
 
 			$('#projectEntryModal').modal();
 		}
-		else {
+		else if ($(this).hasClass('add') && $(this).text() === 'Add New Client') {
 			$('table.tasks.active').toggleClass('active').fadeToggle();
 			$('#clientEntryModal').modal();
+		}
+		else if ($(this).hasClass('restore') && $(this).text() === 'Restore Last Deleted Project') {
+			$(this).fadeOut(400, function(){
+				$(this).addClass('hidden');
+			});
+			$('tr.project.hidden').removeClass('hidden').fadeIn();
+			setTimeout(pageState, 1000);
+		}
+		else if ($(this).hasClass('restore') && $(this).text() === 'Restore Last Deleted Task') {
+			$(this).fadeOut(400, function(){
+				$(this).addClass('hidden');
+				$(this).closest('.active').removeClass('active');
+			});
+			$('tr.task.hidden').removeClass('hidden').fadeIn();
+
+			setTimeout(pageState, 1000);
 		}
 	});
 
@@ -107,7 +128,7 @@ $(document).on('ready', function() {
 	});
 
 	// Project Button Clicks
-	$('.main-content').on('click', 'table.projects .btn', function( event ){
+	$('.main-content').on('click', 'table.projects tr.project > td > .btn', function( event ){
 
 		event.stopPropagation();
 
@@ -123,11 +144,23 @@ $(document).on('ready', function() {
 			workingProject.find('table.tasks').fadeIn();
 		}
 		else {
+			$(this).closest('tr.project').fadeOut(400, function(){
+				$(this).addClass('hidden');
+				$(this).siblings('.hidden').remove();
+
+				if ($('.sidebar-menu .restore.hidden.prj').parent().hasClass('active')) {
+					$('.sidebar-menu .restore.hidden.prj').fadeIn().removeClass('hidden');
+				}
+				else {
+					$('.sidebar-menu .restore.hidden.prj').removeClass('hidden').css('display', 'none');
+				}
+				setTimeout(pageState, 1000);
+			});
 		}
 	});
 
 	// Task Click Events
-	$('table.tasks tr').on('click', function( event ){
+	$('.main-content').on('click', 'table.tasks tr', function(event){
 		var taskName = $(this).find('h4').first().text();
 		var taskDesc = $(this).find('h4').first().next().text();
 
@@ -136,6 +169,27 @@ $(document).on('ready', function() {
 		$('#modalName').text(taskName);
 		$('#modalDesc').html('<small><em>' + taskDesc + '</em></small>');
 		$('#taskDetailModal').modal();
+	});
+
+	// Task Button Click Events
+	$('.main-content').on('click', 'table.tasks .btn', function(event){
+
+		event.stopPropagation();
+
+		workingTask = $(this).closest('tr.task');
+
+		$(this).closest('tr.task').fadeOut(400, function(){
+			$(this).addClass('hidden');
+			$(this).siblings('.hidden').remove();
+
+			if ($('.sidebar-menu .restore.hidden.tsk').parent().hasClass('active')) {
+				$('.sidebar-menu .restore.hidden.tsk').fadeIn().removeClass('hidden');
+			}
+			else {
+				$('.sidebar-menu .restore.hidden.tsk').removeClass('hidden').css('display', 'none');
+			}
+			setTimeout(pageState, 1000);
+		});
 	});
 
 	// Form Click Events
@@ -194,6 +248,7 @@ $(document).on('ready', function() {
 		}
 
 		$('#clientEntryModal').modal('toggle');
+		localStorage["clients"] = JSON.stringify(clientList);
 		$('#clientEntryModal').find('#clientName').val('');
 		$('#clientIcon').val('');
 	});

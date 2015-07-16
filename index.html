@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Untitled</title>
+  <title>ProjectDock</title>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="main.css">
@@ -14,6 +14,7 @@
 		<div class="container-fluid">
 			<ul class="nav navbar-nav">
 				<li class="active"><a class="fa fa-bars fa-2x" href="#"></a></li>
+				<li></li>
 			</ul>
 
 			<button type="button" class="btn btn-default navbar-btn navbar-right">Logout</button>
@@ -56,7 +57,7 @@
 	</nav>
 
 	<!-- >>>>>>>> Sidebar <<<<<<<< -->
-	<nav class="sidebar-menu">
+	<nav class="sidebar-menu hidden-sm hidden-xs">
 		<div class="container-fluid">
 			<ul class="nav">
 				<li><a href="#">Dashboard</a></li>
@@ -68,11 +69,11 @@
 				<li>
 					<a href="#">Projects<span class="caret"></span></a>
 					<p class="h5 add">Add New Project</p>
+					<p class="h5 prj restore hidden">Restore Last Deleted Project</p>
 				</li>
 				<li>
 					<a href="#">Tasks<span class="caret"></span></a>
-					<p class="h5">Task 1</p>
-					<p class="h5">Task 2</p>
+					<p class="h5 tsk restore hidden">Restore Last Deleted Task</p>
 				</li>
 			</ul>
 		</div>
@@ -206,7 +207,7 @@
 
 							</tbody>
 						</table>
-					<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Project</a>
+					<a class="btn btn-default btn-xs pull-right" href="#" role="button">Delete Project</a>
 					<a class="btn btn-default btn-xs pull-right" href="#" role="button">Add Task</a>
 				</td>
 			</tr>
@@ -234,94 +235,27 @@
 			<tbody>
 				<tr class="project">
 					<td>
-						<h2>Project Example 1</h2>
-						<h2><small><em>This is the description for project 1...</em></small></h2>
+						<h2>Project Example</h2>
+						<h2><small><em>This is a sample description for a project...</em></small></h2>
 						<table class="table table-striped table-hover tasks">
 							<tbody>
 								<tr class="task">
 									<td>
-										<h4>Project 1 - Task Example 1</h4>
+										<h4>Task Example 1</h4>
 										<h4><small><em>This is the description for task 1...</em></small></h4>
-										<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Task</a>
+										<a class="btn btn-default btn-xs pull-right" href="#" role="button">Delete Task</a>
 									</td>
 								</tr>
 								<tr class="task">
 									<td>
-										<h4>Project 1 - Task Example 2</h4>
+										<h4>Task Example 2</h4>
 										<h4><small><em>This is the description for task 2...</em></small></h4>
-										<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Task</a>
-									</td>
-								</tr>
-								<tr class="task">
-									<td>
-										<h4>Project 1 - Task Example 3</h4>
-										<h4><small><em>This is the description for task 3...</em></small></h4>
-										<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Task</a>
+										<a class="btn btn-default btn-xs pull-right" href="#" role="button">Delete Task</a>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Project</a>
-						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Add Task</a> 
-					</td>
-				</tr>
-				<tr class="project">
-					<td>
-						<h2>Project Example 2</h2>
-						<h2><small><em>This is the description for project 2...</em></small></h2>
-						<table class="table table-striped table-hover tasks">
-							<tbody>
-								<tr>
-									<td>
-										<h4>Task Example 1</h4>
-										<h4><small>This is the description...</small></h4>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<h4>Task Example 2</h4>
-										<h4><small>This is the description...</small></h4>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<h4>Task Example 3</h4>
-										<h4><small>This is the description...</small></h4>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Project</a>
-						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Add Task</a> 
-					</td>
-				</tr>
-				<tr class="project">
-					<td>
-						<h2>Project Example 3</h2>
-						<h2><small><em>This is the description for project 3...</em></small></h2>
-						<table class="table table-striped table-hover tasks">
-							<tbody>
-								<tr>
-									<td>
-										<h4>Task Example 1</h4>
-										<h4><small>This is the description...</small></h4>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<h4>Task Example 2</h4>
-										<h4><small>This is the description...</small></h4>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<h4>Task Example 3</h4>
-										<h4><small>This is the description...</small></h4>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Edit Project</a>
+						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Delete Project</a>
 						<a class="btn btn-default btn-xs pull-right" href="#" role="button">Add Task</a> 
 					</td>
 				</tr>
