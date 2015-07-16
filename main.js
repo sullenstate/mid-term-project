@@ -4,6 +4,8 @@ var pageState = function(){
 		localStorage["projectPageState"] = JSON.stringify($('.save-container').html());
 };
 
+var clientList = [];
+
 $(document).on('ready', function() {
 
 	// Load locally stored page content
@@ -35,11 +37,11 @@ $(document).on('ready', function() {
 			if($(this).children('a').hasClass('fa-bars')) {
 				$('.navbar-right').children('li.active').removeClass('active');
 				$('.sidebar-menu').animate({width: '15%'}, function(){
-					$('.sidebar-menu .container-fluid').fadeIn(400);
+					$('.sidebar-menu .container-fluid').fadeIn().animate({opacity: 1}, 200, function(){
+						pageState();
+					});
 				});
-				$('.main-content').animate({width: '75%', marginLeft: '20%'}, function(){
-					pageState();
-				});
+				$('.main-content').animate({width: '75%', marginLeft: '20%'});
 			}
 		}
 	});
@@ -61,9 +63,20 @@ $(document).on('ready', function() {
 	$('.sidebar-menu li > p').on('click', function(event){
 		// Handle menu items
 		event.stopPropagation();
-		if ($(this).hasClass('add')) {
+		if ($(this).hasClass('add') && $(this).text() === 'Add New Project') {
 			$('table.tasks.active').toggleClass('active').fadeToggle();
+
+				$('select').empty();
+
+				for (var i = 0; i < clientList.length; i += 2) {
+						$('select').append('<option>' + clientList[i] + '</option>');
+				};
+
 			$('#projectEntryModal').modal();
+		}
+		else {
+			$('table.tasks.active').toggleClass('active').fadeToggle();
+			$('#clientEntryModal').modal();
 		}
 	});
 
@@ -72,27 +85,25 @@ $(document).on('ready', function() {
 		var selectedProjectTasks = $(this).find('table.tasks');
 		var activeProjectTasks = $(this).siblings('tr').find('table.tasks.active');
 
-		// activeProjectTasks.toggleClass('active').fadeToggle();
-		// selectedProjectTasks.toggleClass('active').fadeToggle();
-
 		if (selectedProjectTasks.hasClass('active')) {
 			selectedProjectTasks.removeClass('active').fadeOut();
+	
+			setTimeout(pageState, 1000);
+
 		}
 		else {
-			selectedProjectTasks.addClass('active').fadeIn();
+			selectedProjectTasks.addClass('active').fadeIn().animate({opacity : 1}, 100, function(){
+				pageState();
+			});
 			$(this).find('table.tasks').find('a.btn').animate({
 				opacity : 0
 			}, 100);
 			$(this).find('table.tasks').siblings('a.btn').animate({
 				opacity : 1
-			}, 100, pageState());
+			}, 100);
 
 			activeProjectTasks.removeClass('active').fadeOut();
 		}
-
-		// $(this).find('.btn').animate({
-		// 	opacity : 0
-		// }, 100, pageState());
 	});
 
 	// Project Button Clicks
@@ -103,6 +114,11 @@ $(document).on('ready', function() {
 		workingProject = $(this).closest('tr.project');
 		
 		if ($(this).text() === 'Add Task') {
+			
+			if (! workingProject.find('table.tasks').hasClass('active')) {
+				workingProject.find('table.tasks').addClass('active');
+			}
+
 			$('#taskEntryModal').modal();
 			workingProject.find('table.tasks').fadeIn();
 		}
@@ -128,16 +144,22 @@ $(document).on('ready', function() {
 		var projectName = $('#projectName').val();
 		var projectDesc = $('#projectDescription').val();
 		var newProject = $('table.template .project');
+		var clientName = $('#clientID :selected').text();
+		var clientImg = clientList.indexOf(clientName);
+		console.log(clientImg);
 
 		// Populate Project Template
 		newProject.find('h2').first().text(projectName);
 		newProject.find('em').first().text(projectDesc);
+		newProject.find('img').attr("src", clientList[clientImg + 1]);
+		newProject.find('.client').text(clientName);
 		// Add Project Template Clone to Main Table Body
 		$('table.projects > tbody').prepend(newProject.clone());
 		// Close Modal and Clear Form Data
 		$('#projectEntryModal').modal('toggle');
 		$('#projectName').val('');
 		$('#projectDescription').val('');
+		$('#clientName').val('');
 		// Save New Page State
 		setTimeout(pageState, 1000);
 	});
@@ -159,6 +181,21 @@ $(document).on('ready', function() {
 		$('#taskDescription').val('');
 		// Save New Page State
 		setTimeout(pageState, 1000);
+	});
+
+	// Client Entry Form
+	$('#clientEntryModal .modal-footer .btn-primary').on('click', function(){
+		var clientName = $('#clientEntryModal').find('#clientName').val();
+		var clientIcon = $('#clientIcon').val();
+
+		if (clientName !== '') {
+			clientList.push(clientName);
+			clientList.push(clientIcon);
+		}
+
+		$('#clientEntryModal').modal('toggle');
+		$('#clientEntryModal').find('#clientName').val('');
+		$('#clientIcon').val('');
 	});
 
 	// Animate buttons on hover

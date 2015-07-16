@@ -2,7 +2,7 @@ body {
 	padding-top: 60px;
 }
 
-#projectEntryModal, #taskDetailModal {
+.modal {
 	top: 15%;
 }
 
@@ -75,4 +75,18 @@ tr.project > td > a {
 
 tr.task > td > a {
 	opacity: 0;
+}
+
+tr.project img {
+	margin-bottom: 10px;
+}
+
+.one-half {
+	width: 50%;
+	display: inline-block;
+}
+
+.one-third {
+	width: 33%;
+	display: inline-block;
 }
