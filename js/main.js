@@ -29,7 +29,7 @@ $(document).on('ready', function() {
 	clientList = JSON.parse(localStorage["clients"]);
 	
 	if (localStorage.getItem('projectPageState') !== null) {
-		// $('.save-container').html(JSON.parse(localStorage["projectPageState"]));
+		$('.save-container').html(JSON.parse(localStorage["projectPageState"]));
 	}	
 
 	var workingProject;
