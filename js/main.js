@@ -10,6 +10,16 @@ var storedPageState;
 
 $(document).on('ready', function() {
 
+	setTimeout(function(){
+		$('.front-text img').animate({opacity: 1}, 2000, function(){
+			setTimeout(function(){
+				$('.window-shade').animate({opacity: .85}, 2000, function(){
+					$('a.btn.btn-default.btn-lg.login').animate({opacity: 1}, 2000);
+				});
+			}, 4000);
+		});
+	}, 6000);
+
 	// Load localStorage if it exist - Otherwise load dummy data
 	if (localStorage.getItem('clients') === null) {
 		localStorage['clients'] = JSON.stringify(storedClientList);
@@ -280,5 +290,14 @@ $(document).on('ready', function() {
 
 	$('.main-content').on('mouseleave', 'tr.task', function(){
 		$(this).find('a').animate({opacity : 0}, 200);
+	});
+
+	// Logo hover
+	$('nav img').on('mouseenter', function(){
+		$(this).attr('src', 'img/pd-inv.png');
+	});
+
+	$('nav img').on('mouseleave', function(){
+		$(this).attr('src', 'img/pd.png');
 	});
 });

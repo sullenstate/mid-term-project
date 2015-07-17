@@ -107,6 +107,37 @@ margin-right: 0 !important;
 float: right!important;
 }
 
+.window-shade {
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background-color: grey;
+	opacity: 0;
+	z-index: 1;
+}
+
+.front-text img {
+	position: relative;
+	opacity: 0;
+	z-index: 5;
+}
+
+a.btn.btn-default.btn-lg.login {
+  position: relative;
+  width: 450px;
+  height: 70px;
+  margin: 40px 211px;
+  font-size: 2em;
+  z-index: 5;
+  opacity: 0;
+}
+
+.navbar-nav > li > a.icon {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 @media (max-width: 991px) {
 	.main-content {
 		margin-left: 0% !important;

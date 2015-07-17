@@ -92,8 +92,8 @@ a, a:hover, a:focus {
 
 .btn-theme {
   color: #fff;
-  background-color: #68dff0;
-  border-color: #48bcb4;
+  background-color: #e39925;
+  border-color: #b9762a;
 }
 .btn-theme:hover,
 .btn-theme:focus,
@@ -101,8 +101,8 @@ a, a:hover, a:focus {
 .btn-theme.active,
 .open .dropdown-toggle.btn-theme {
   color: #fff;
-  background-color: #48bcb4;
-  border-color: #48bcb4;
+  background-color: #d18d23;
+  border-color: #d18d23;
 }
 
 .btn-theme02 {
@@ -1936,9 +1936,9 @@ label {
 	margin: 0;
 	padding: 25px 20px;
 	text-align: center;
-	background: #68dff0;
+	background: #e39925;
 	border-radius: 5px 5px 0 0;
-	-webkit-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 4px 4px 0 0;
 	color: #fff;
 	font-size: 20px;
 	text-transform: uppercase;
